@@ -2,18 +2,12 @@ package routing;
 
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.Font;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.Random;
 import java.util.Vector;
-
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.plaf.ActionMapUIResource;
 
 public class MainFrame {
 	static JTextField input = new JTextField();
@@ -80,9 +74,13 @@ public class MainFrame {
 				};
 				
 				String distanceString = JOptionPane.showInputDialog(null, inputs, "Add New Edge", JOptionPane.PLAIN_MESSAGE);
+				if(distanceString == null)
+				{
+					return;
+				}
 				if(boxFrom.getSelectedItem().toString() != boxTo.getSelectedItem().toString())
 				{
-					float dis = Float.valueOf(distanceString);
+					Double dis = Double.parseDouble(distanceString);
 					
 					addEdge(boxFrom.getSelectedItem().toString(), boxTo.getSelectedItem().toString(), dis);
 					canvas.repaint();
@@ -103,6 +101,10 @@ public class MainFrame {
 				//To-do
 				String name = JOptionPane.showInputDialog(null, "Enter New Router Name.");
 				if (name == null) {
+					return;
+				} else if (name.length() == 0)
+				{
+					JOptionPane.showMessageDialog(null, "Please Specify a name for new router");
 					return;
 				}
 				Router newRouter = new Router(name);
@@ -152,7 +154,77 @@ public class MainFrame {
 		});
 
 		removeedge_button.setBounds(330, 60, 150, 30);
-
+		removeedge_button.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				if (router_vector.size() <= 1 ) {
+					JOptionPane.showMessageDialog(frame, "Please add at least two routers first!");
+					return;
+				}
+				String routerName [] = new String[router_vector.size()];
+				for (int i = 0; i < routerName.length; i++) {
+					routerName[i] = router_vector.get(i).getName();
+				}
+				JComboBox boxFrom = new JComboBox(routerName);
+				JComboBox boxTo = new JComboBox(routerName);
+				
+				final JComponent[] inputs = new JComponent[] {
+						new JLabel("From Router"),
+						boxFrom,
+						new JLabel("To Router"),
+						boxTo
+//						new JLabel("Distance"),
+				};
+				
+				JOptionPane.showConfirmDialog(null, inputs, "Remove Edge",JOptionPane.OK_CANCEL_OPTION);
+				if(boxFrom.getSelectedItem().toString() != boxTo.getSelectedItem().toString())
+				{
+					
+					removeEdge(boxFrom.getSelectedItem().toString(), boxTo.getSelectedItem().toString());
+					canvas.repaint();
+				}
+			}
+		});
+		
+		compute_button.setBounds(650, 20, 150, 30);
+		compute_button.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				if (router_vector.size() <= 1 ) {
+					JOptionPane.showMessageDialog(frame, "Please add at least two routers first!");
+					return;
+				}
+				String routerName [] = new String[router_vector.size()];
+				for (int i = 0; i < routerName.length; i++) {
+					routerName[i] = router_vector.get(i).getName();
+				}
+				JComboBox boxFrom = new JComboBox(routerName);
+				JComboBox boxTo = new JComboBox(routerName);
+				
+				final JComponent[] inputs = new JComponent[] {
+						new JLabel("From Router"),
+						boxFrom,
+						new JLabel("To Router"),
+						boxTo
+//						new JLabel("Distance"),
+				};
+				
+				JOptionPane.showConfirmDialog(null, inputs, "Remove Edge",JOptionPane.OK_CANCEL_OPTION);
+				if(boxFrom.getSelectedItem().toString() == boxTo.getSelectedItem().toString())
+				{
+					
+					JOptionPane.showMessageDialog(null, "Cannot start from one router to itself! Failed!");
+					return;
+				}
+				calculation(boxFrom.getSelectedItem().toString(), boxTo.getSelectedItem().toString());
+				canvas.setFlagFalse();
+			}
+		});
+		
 		canvas.setBounds(10, 100, 800, 585);
 		canvas.setBackground(Color.white);
 
@@ -377,6 +449,7 @@ public class MainFrame {
 			}
 		}
 //		console.append("Cannot Find Router " + name + ".\n");
+		JOptionPane.showMessageDialog(null, "Cannot find this router. Failed.");
 	}
 
 	void removeAllRouters() {
@@ -389,10 +462,7 @@ public class MainFrame {
 	}
 
 	void addEdge(String from, String to, double distance) {
-		if (from.equalsIgnoreCase(to) && distance == 0.) {
-//			console.append("The distance from one router to itself has to be ZERO. NOTHING TO DO.\n");
-			return;
-		}
+
 		Router target = findRouterWithName(to);
 		Router source = findRouterWithName(from);
 		if (source == null) {
@@ -430,12 +500,13 @@ public class MainFrame {
 			}
 		}
 //		console.append("ERROR: Cannot find corresponding edge!");
+		JOptionPane.showMessageDialog(null, "Cannot find corresponding edge! Failed!");
 	}
 
 	void pointGenerator(Router router) {
 		Random randomX = new Random();
 		Random randomY = new Random();
-		router.setPoint(randomX.nextInt(800) + 10, randomY.nextInt(270) + 10);
+		router.setPoint(randomX.nextInt(canvas.getBounds().width-20) + 10, randomY.nextInt(canvas.getBounds().height-20) + 10);
 
 	}
 
@@ -445,5 +516,19 @@ public class MainFrame {
 			pathToString += router.getName() + " ";
 		}
 		return pathToString + "\n";
+	}
+	
+	void calculation(String fromRouter, String toRouter)
+	{
+		Router source = findRouterWithName(fromRouter);
+		Router destination = findRouterWithName(toRouter);
+		
+		Dijkstra_Core calculate = new Dijkstra_Core(source, destination);
+		List<Router> path = calculate.getRouterList();
+		canvas.setRouterList(path);
+		canvas.setFlagTrue();
+		canvas.repaint();
+//		canvas.setFlagFalse();
+		JOptionPane.showMessageDialog(null, "Min distance is: " + destination.getMinDistance());
 	}
 }
