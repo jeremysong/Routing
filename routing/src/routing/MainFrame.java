@@ -102,7 +102,7 @@ public class MainFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				//To-do
 				String name = JOptionPane.showInputDialog(null, "Enter New Router Name.");
-				if (name.length() == 0) {
+				if (name == null) {
 					return;
 				}
 				Router newRouter = new Router(name);
