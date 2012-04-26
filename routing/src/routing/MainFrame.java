@@ -17,14 +17,14 @@ import javax.swing.plaf.ActionMapUIResource;
 
 public class MainFrame {
 	static JTextField input = new JTextField();
-	static JTextArea console = new JTextArea();
-	static JButton confirm_button = new JButton("Confirm");
-	static JButton clear_button = new JButton("Clear History");
+//	static JTextArea console = new JTextArea();
+//	static JButton confirm_button = new JButton("Confirm");
+//	static JButton clear_button = new JButton("Clear History");
 	static JButton add_button = new JButton("Add new Routers");
 	static JButton compute_button = new JButton("Compute Path");
 	static JButton config_button = new JButton("Add Edge");
-	static JButton topology_button = new JButton("Show Topology");
-	static JButton history_button = new JButton("Show History");
+//	static JButton topology_button = new JButton("Show Topology");
+//	static JButton history_button = new JButton("Show History");
 	static JButton removeall_button = new JButton("Remove All Routers");
 	static JButton removeone_button = new JButton("Remove Router");
 	static JButton list_button = new JButton("Router Information");
@@ -34,7 +34,6 @@ public class MainFrame {
 	static JFrame frame = new JFrame();
 	static Container frame_pane = frame.getContentPane();
 	static Draw canvas = new Draw(router_vector);
-	static int S;
 
 	public static void main(String[] args) {
 		final MainFrame main_frame = new MainFrame();
@@ -47,22 +46,6 @@ public class MainFrame {
 				main_frame.createMainFrame();
 			}
 		});
-		/*
-		 * InputMap keyMap = new ComponentInputMap(confirm_button);
-		 * keyMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),
-		 * "confirm_action"); ActionMap actionMap = new ActionMapUIResource();
-		 * actionMap.put("confirm_action", new AbstractAction() {
-		 * 
-		 * @Override public void actionPerformed(ActionEvent e) { // TODO
-		 * Auto-generated method stub
-		 * main_frame.confirm_command(input.getText()); } });
-		 * 
-		 * SwingUtilities.replaceUIActionMap(confirm_button, actionMap);
-		 * SwingUtilities.replaceUIInputMap(confirm_button,
-		 * JComponent.WHEN_IN_FOCUSED_WINDOW, keyMap);
-		 */
-		console.append("Welcome to this simulation!\n");
-		console.setCaretPosition(console.getDocument().getLength());
 
 	}
 
@@ -75,84 +58,26 @@ public class MainFrame {
 		frame_pane.setLayout(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		Font console_font = new Font("Arial", Font.BOLD, 14);
-		JLabel console_label = new JLabel("Console:");
-		console_label.setBounds(10, 0, 100, 40);
-		console_label.setFont(console_font);
-		Border border = BorderFactory.createLineBorder(Color.black);
-		console.setBorder(border);
-		console.setFont(console_font);
-		console.setLineWrap(true);
-		console.setEditable(false);
 
-		JScrollPane scroll = new JScrollPane(console);
-		scroll.setBounds(10, 40, 800, 180);
-		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		config_button.setBounds(170, 20, 150, 30);
 
-		JLabel input_label = new JLabel("Typing Area:");
-		input_label.setBounds(10, 225, 90, 40);
-		input_label.setFont(console_font);
-
-		input.setBounds(105, 233, 585, 30);
-		input.setFont(console_font);
-
-		confirm_button.setBounds(700, 233, 100, 30);
-
-		compute_button.setBounds(490, 275, 150, 30);
-
-		topology_button.setBounds(330, 275, 150, 30);
-		topology_button.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				canvas.setFlagFalse();
-				canvas.repaint(); // This method calls paintComponent;
-				return;
-
-			}
-		});
-
-		config_button.setBounds(170, 275, 150, 30);
-
-		add_button.setBounds(10, 275, 150, 30);
+		add_button.setBounds(10, 20, 150, 30);
 		add_button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-
-				console.append("Please type in the names of the routers you want to be added in the typing area"
-						+ "\nThen press Enter on the keyboard or the confirm button on the right of the typing area\n");
-				int S = 1;
-				confirm_command(null, S);
-				return;
-
+				//To-do
+				String name = JOptionPane.showInputDialog(null, "Enter New Router Name.");
+				Router newRouter = new Router(name);
+				pointGenerator(newRouter);
+				router_vector.add(newRouter);
+				canvas.repaint();
 			}
 		});
 
-		clear_button.setBounds(650, 275, 150, 30);
-		clear_button.addActionListener(new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				console.setText("");
-				return;
-
-			}
-		});
-
-		history_button.setBounds(650, 315, 150, 30);
-		history_button.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				show_history(command_history);
-				return;
-
-			}
-		});
-		removeone_button.setBounds(10, 315, 150, 30);
-
-		removeall_button.setBounds(170, 315, 150, 30);
+		removeone_button.setBounds(10, 60, 150, 30);
+		
+		removeall_button.setBounds(170, 60, 150, 30);
 		removeall_button.addActionListener(new ActionListener() {
 
 			@Override
@@ -163,7 +88,7 @@ public class MainFrame {
 			}
 		});
 
-		list_button.setBounds(490, 315, 150, 30);
+		list_button.setBounds(490, 60, 150, 30);
 		list_button.addActionListener(new ActionListener() {
 
 			@Override
@@ -176,30 +101,24 @@ public class MainFrame {
 			}
 		});
 
-		removeedge_button.setBounds(330, 315, 150, 30);
+		removeedge_button.setBounds(330, 60, 150, 30);
 
-		canvas.setBounds(10, 355, 800, 325);
+		canvas.setBounds(10, 100, 800, 585);
 		canvas.setBackground(Color.white);
 
 		frame_pane.add(canvas);
-		frame_pane.add(scroll);
-		frame_pane.add(console_label);
-		frame_pane.add(input_label);
 		frame_pane.add(input);
-		frame_pane.add(clear_button);
 		frame_pane.add(add_button);
 		frame_pane.add(compute_button);
 		frame_pane.add(config_button);
-		frame_pane.add(topology_button);
-		frame_pane.add(history_button);
 		frame_pane.add(removeall_button);
 		frame_pane.add(removeone_button);
 		frame_pane.add(list_button);
 		frame_pane.add(removeedge_button);
-		frame_pane.add(confirm_button);
 
 	}
 
+/*
 	void confirm_command(String command, int S) {
 		if (command.equalsIgnoreCase("history")) {
 			show_history(command_history);
@@ -356,14 +275,8 @@ public class MainFrame {
 			console.append("> \n");
 		}
 	}
+*/
 
-	void show_history(Vector<String> history) {
-		console.append("\n*********HISTROY*********\n");
-		for (String str : history) {
-			console.append(str + "\n");
-		}
-		console.append("*********HISTROY END*********\n\n");
-	}
 
 	boolean nameTaken(String name) {
 		for (Router router : router_vector) {
@@ -381,7 +294,7 @@ public class MainFrame {
 					+ edge.getWeight();
 		}
 		info += "\n";
-		console.append(info);
+//		console.append(info);
 	}
 
 	void printRouterInfoByName(String name) {
@@ -392,7 +305,7 @@ public class MainFrame {
 					+ edge.getWeight();
 		}
 		info += "\n";
-		console.append(info);
+//		console.append(info);
 
 	}
 
@@ -409,48 +322,48 @@ public class MainFrame {
 		for (Router router : router_vector) {
 			if (router.getName().equalsIgnoreCase(name)) {
 				router_vector.remove(router);
-				console.append("Router " + name + " is removed.\n");
+//				console.append("Router " + name + " is removed.\n");
 				return;
 			}
 		}
-		console.append("Cannot Find Router " + name + ".\n");
+//		console.append("Cannot Find Router " + name + ".\n");
 	}
 
 	void removeAllRouters() {
 		if (router_vector.isEmpty()) {
-			console.append("No Router has been added" + "\n");
+//			console.append("No Router has been added" + "\n");
 			return;
 		}
 		router_vector.clear();
-		console.append("All Routers Removed!");
+//		console.append("All Routers Removed!");
 	}
 
 	void addEdge(String from, String to, double distance) {
 		if (from.equalsIgnoreCase(to) && distance == 0.) {
-			console.append("The distance from one router to itself has to be ZERO. NOTHING TO DO.\n");
+//			console.append("The distance from one router to itself has to be ZERO. NOTHING TO DO.\n");
 			return;
 		}
 		Router target = findRouterWithName(to);
 		Router source = findRouterWithName(from);
 		if (source == null) {
-			console.append("Cannot Find Router With Name " + from + "\n");
+//			console.append("Cannot Find Router With Name " + from + "\n");
 			return;
 		} else if (target == null) {
-			console.append("Cannot Find Router With Name " + to + "\n");
+//			console.append("Cannot Find Router With Name " + to + "\n");
 			return;
 		}
 		Edge edge = new Edge(target, distance);
 		source.addAdjacent(edge);
 		Edge edgeBack = new Edge(source, distance);
 		target.addAdjacent(edgeBack);
-		console.append("New Edge Added!\n");
+//		console.append("New Edge Added!\n");
 	}
 
 	void removeEdge(String from, String to) {
 		Router source = findRouterWithName(from);
 		Router target = findRouterWithName(to);
 		if (source == null || target == null) {
-			console.append("ERROR: Invalid Router!");
+//			console.append("ERROR: Invalid Router!");
 			return;
 		}
 		for (Edge edge : source.getAdjacences()) {
@@ -462,11 +375,11 @@ public class MainFrame {
 		for (Edge edge : target.getAdjacences()) {
 			if (edge.getTarget().getName().equalsIgnoreCase(from)) {
 				target.getAdjacences().remove(edge);
-				console.append("Edge removed!");
+//				console.append("Edge removed!");
 				return;
 			}
 		}
-		console.append("ERROR: Cannot find corresponding edge!");
+//		console.append("ERROR: Cannot find corresponding edge!");
 	}
 
 	void pointGenerator(Router router) {
