@@ -60,6 +60,42 @@ public class MainFrame {
 
 
 		config_button.setBounds(170, 20, 150, 30);
+		config_button.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				String routerName [] = new String[router_vector.size()];
+				for (int i = 0; i < routerName.length; i++) {
+					routerName[i] = router_vector.get(i).getName();
+				}
+				JComboBox boxFrom = new JComboBox(routerName);
+				JComboBox boxTo = new JComboBox(routerName);
+				
+				final JComponent[] inputs = new JComponent[] {
+						new JLabel("From Router"),
+						boxFrom,
+						new JLabel("To Router"),
+						boxTo,
+						new JLabel("Distance"),
+				};
+				
+				String distanceString = JOptionPane.showInputDialog(null, inputs, "Add New Edge", JOptionPane.PLAIN_MESSAGE);
+				if(boxFrom.getSelectedItem().toString() != boxTo.getSelectedItem().toString())
+				{
+					float dis = Float.valueOf(distanceString);
+					
+					addEdge(boxFrom.getSelectedItem().toString(), boxTo.getSelectedItem().toString(), dis);
+					canvas.repaint();
+				} else
+				{
+					JOptionPane.showMessageDialog(null, "ERROR!! You cannot point one router to itself! Add Edge Failed!");
+				}
+				
+				
+			}
+			
+		});
 
 		add_button.setBounds(10, 20, 150, 30);
 		add_button.addActionListener(new ActionListener() {
@@ -83,7 +119,7 @@ public class MainFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				removeAllRouters();
-				return;
+				canvas.repaint();
 
 			}
 		});
@@ -96,7 +132,6 @@ public class MainFrame {
 				for (Router router : router_vector) {
 					printRouterInfo(router);
 				}
-				return;
 
 			}
 		});
