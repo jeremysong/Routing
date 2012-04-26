@@ -17,14 +17,9 @@ import javax.swing.plaf.ActionMapUIResource;
 
 public class MainFrame {
 	static JTextField input = new JTextField();
-//	static JTextArea console = new JTextArea();
-//	static JButton confirm_button = new JButton("Confirm");
-//	static JButton clear_button = new JButton("Clear History");
 	static JButton add_button = new JButton("Add new Routers");
 	static JButton compute_button = new JButton("Compute Path");
 	static JButton config_button = new JButton("Add Edge");
-//	static JButton topology_button = new JButton("Show Topology");
-//	static JButton history_button = new JButton("Show History");
 	static JButton removeall_button = new JButton("Remove All Routers");
 	static JButton removeone_button = new JButton("Remove Router");
 	static JButton list_button = new JButton("Router Information");
@@ -112,6 +107,19 @@ public class MainFrame {
 
 
 		removeone_button.setBounds(10, 60, 150, 30);
+		removeone_button.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+				String routerName = JOptionPane.showInputDialog(null, "Enter the name of Router that you want to delete:");
+				removeRouterByName(routerName);
+				
+				canvas.repaint();
+				
+			}
+		});
 		
 		removeall_button.setBounds(170, 60, 150, 30);
 		removeall_button.addActionListener(new ActionListener() {
