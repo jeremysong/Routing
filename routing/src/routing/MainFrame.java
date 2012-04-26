@@ -60,6 +60,10 @@ public class MainFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
+				if (router_vector.size() <= 1 ) {
+					JOptionPane.showMessageDialog(frame, "Please add at least two routers first!");
+					return;
+				}
 				String routerName [] = new String[router_vector.size()];
 				for (int i = 0; i < routerName.length; i++) {
 					routerName[i] = router_vector.get(i).getName();
@@ -98,6 +102,9 @@ public class MainFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				//To-do
 				String name = JOptionPane.showInputDialog(null, "Enter New Router Name.");
+				if (name.length() == 0) {
+					return;
+				}
 				Router newRouter = new Router(name);
 				pointGenerator(newRouter);
 				router_vector.add(newRouter);
