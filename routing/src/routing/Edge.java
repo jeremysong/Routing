@@ -5,9 +5,10 @@ public class Edge {
 	private double weight;
 	private double congestion;
 
-	Edge(Router newTarge, double newWeight) {
+	Edge(Router newTarge, double newWeight, double con) {
 		target = newTarge;
 		weight = newWeight;
+		congestion = con;
 	}
 
 	Router getTarget() {

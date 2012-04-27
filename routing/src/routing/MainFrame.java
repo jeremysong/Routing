@@ -64,12 +64,15 @@ public class MainFrame {
 				}
 				JComboBox boxFrom = new JComboBox(routerName);
 				JComboBox boxTo = new JComboBox(routerName);
+				JTextField conTextField = new JTextField();
 				
 				final JComponent[] inputs = new JComponent[] {
 						new JLabel("From Router"),
 						boxFrom,
 						new JLabel("To Router"),
 						boxTo,
+						new JLabel("Congestion value"),
+						conTextField,
 						new JLabel("Distance"),
 				};
 				
@@ -81,8 +84,8 @@ public class MainFrame {
 				if(boxFrom.getSelectedItem().toString() != boxTo.getSelectedItem().toString())
 				{
 					Double dis = Double.parseDouble(distanceString);
-					
-					addEdge(boxFrom.getSelectedItem().toString(), boxTo.getSelectedItem().toString(), dis);
+					Double congestion = Double.valueOf(conTextField.getText());
+					addEdge(boxFrom.getSelectedItem().toString(), boxTo.getSelectedItem().toString(), dis, congestion);
 					canvas.repaint();
 				} else
 				{
@@ -461,7 +464,7 @@ public class MainFrame {
 //		console.append("All Routers Removed!");
 	}
 
-	void addEdge(String from, String to, double distance) {
+	void addEdge(String from, String to, double distance, double congestion) {
 
 		Router target = findRouterWithName(to);
 		Router source = findRouterWithName(from);
@@ -472,9 +475,9 @@ public class MainFrame {
 //			console.append("Cannot Find Router With Name " + to + "\n");
 			return;
 		}
-		Edge edge = new Edge(target, distance);
+		Edge edge = new Edge(target, distance, congestion);
 		source.addAdjacent(edge);
-		Edge edgeBack = new Edge(source, distance);
+		Edge edgeBack = new Edge(source, distance, congestion);
 		target.addAdjacent(edgeBack);
 //		console.append("New Edge Added!\n");
 	}
