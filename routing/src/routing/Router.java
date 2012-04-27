@@ -6,6 +6,7 @@ import java.util.Vector;
 public class Router implements Comparable<Router> {
 	private String router_name;
 	private double minDistance = Double.POSITIVE_INFINITY;
+	private double minDistance_congestion = Double.POSITIVE_INFINITY;
 	private Vector<Edge> adjacenciese = new Vector<Edge>(10);
 	private Router previous;
 	private Point point = new Point();
@@ -13,7 +14,7 @@ public class Router implements Comparable<Router> {
 	@Override
 	public int compareTo(Router adjacent) {
 		// TODO Auto-generated method stub
-		return Double.compare(minDistance, adjacent.minDistance);
+		return Double.compare(minDistance_congestion, adjacent.minDistance_congestion);
 	}
 
 	Router(String name) {
@@ -47,9 +48,19 @@ public class Router implements Comparable<Router> {
 	void setMinDistance(double min) {
 		minDistance = min;
 	}
+	
+	void setMinDistanceCongestion(double min)
+	{
+		minDistance_congestion = min;
+	}
 
 	double getMinDistance() {
 		return minDistance;
+	}
+	
+	double getMinDistanceCongestion()
+	{
+		return minDistance_congestion;
 	}
 
 	void setName(String name) {

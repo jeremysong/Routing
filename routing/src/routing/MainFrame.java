@@ -23,6 +23,7 @@ public class MainFrame {
 	static JFrame frame = new JFrame();
 	static Container frame_pane = frame.getContentPane();
 	static Draw canvas = new Draw(router_vector);
+	static JCheckBox checkCongestion = new JCheckBox();
 
 	public static void main(String[] args) {
 		final MainFrame main_frame = new MainFrame();
@@ -39,7 +40,6 @@ public class MainFrame {
 	}
 
 	void createMainFrame() {
-
 		frame.setBounds(200, 80, 655, 555);
 		frame.setVisible(true);
 		frame.setTitle("Revised Dijkstra Algorithm");
@@ -143,7 +143,13 @@ public class MainFrame {
 
 			}
 		});
-
+		
+		checkCongestion.setBounds(490, 25, 20, 20);
+		checkCongestion.setSelected(false);
+		
+		JLabel congestionLabel = new JLabel("Congestion");
+		congestionLabel.setBounds(510, 20, 150, 30);
+		
 		list_button.setBounds(490, 60, 150, 30);
 		list_button.addActionListener(new ActionListener() {
 
@@ -223,7 +229,7 @@ public class MainFrame {
 					JOptionPane.showMessageDialog(null, "Cannot start from one router to itself! Failed!");
 					return;
 				}
-				calculation(boxFrom.getSelectedItem().toString(), boxTo.getSelectedItem().toString());
+				calculation(boxFrom.getSelectedItem().toString(), boxTo.getSelectedItem().toString(), checkCongestion.isSelected());
 				canvas.setFlagFalse();
 			}
 		});
@@ -238,8 +244,10 @@ public class MainFrame {
 		frame_pane.add(addedge_button);
 		frame_pane.add(removeall_button);
 		frame_pane.add(removeone_button);
+		frame_pane.add(checkCongestion);
 		frame_pane.add(list_button);
 		frame_pane.add(removeedge_button);
+		frame_pane.add(congestionLabel);
 
 	}
 
@@ -521,17 +529,25 @@ public class MainFrame {
 		return pathToString + "\n";
 	}
 	
-	void calculation(String fromRouter, String toRouter)
+	void calculation(String fromRouter, String toRouter, boolean congestion_bool)
 	{
 		Router source = findRouterWithName(fromRouter);
 		Router destination = findRouterWithName(toRouter);
 		
-		Dijkstra_Core calculate = new Dijkstra_Core(source, destination);
+		Dijkstra_Core calculate = new Dijkstra_Core(source, destination, congestion_bool);
 		List<Router> path = calculate.getRouterList();
 		canvas.setRouterList(path);
 		canvas.setFlagTrue();
 		canvas.repaint();
 //		canvas.setFlagFalse();
-		JOptionPane.showMessageDialog(null, "Min distance is: " + destination.getMinDistance());
+//		double distance = 0.;
+//		if(checkCongestion.isSelected())
+//		{
+//			distance = destination.getMinDistanceCongestion();
+//		} else
+//		{
+//			distance = destination.getMinDistance();
+//		}
+		JOptionPane.showMessageDialog(null, "Min distance is: " + destination.getMinDistanceCongestion());
 	}
 }
