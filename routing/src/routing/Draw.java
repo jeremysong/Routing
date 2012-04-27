@@ -58,8 +58,9 @@ public class Draw extends JPanel {
 						(int) edge.getTarget().getPoint().getY());
 				int x_mid = (x + (int) edge.getTarget().getPoint().getX()) / 2;
 				int y_mid = (y + (int) edge.getTarget().getPoint().getY()) / 2;
-				g.drawString(Double.toString(edge.getWeight()), x_mid,
+				g.drawString("Distance:" + Double.toString(edge.getWeight()), x_mid,
 						y_mid - 5);
+				g.drawString("Congestion:" + Double.toString(edge.getCongestion()), x_mid, y_mid-20);
 			}
 		}
 	}
