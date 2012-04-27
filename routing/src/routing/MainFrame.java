@@ -13,7 +13,7 @@ public class MainFrame {
 	static JTextField input = new JTextField();
 	static JButton add_button = new JButton("Add new Routers");
 	static JButton compute_button = new JButton("Compute Path");
-	static JButton config_button = new JButton("Add Edge");
+	static JButton addedge_button = new JButton("Add Edge");
 	static JButton removeall_button = new JButton("Remove All Routers");
 	static JButton removeone_button = new JButton("Remove Router");
 	static JButton list_button = new JButton("Router Information");
@@ -40,7 +40,7 @@ public class MainFrame {
 
 	void createMainFrame() {
 
-		frame.setBounds(200, 80, 825, 720);
+		frame.setBounds(200, 80, 655, 555);
 		frame.setVisible(true);
 		frame.setTitle("Revised Dijkstra Algorithm");
 		frame.setResizable(false);
@@ -48,8 +48,8 @@ public class MainFrame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
-		config_button.setBounds(170, 20, 150, 30);
-		config_button.addActionListener(new ActionListener() {
+		addedge_button.setBounds(10, 60, 150, 30);
+		addedge_button.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -115,7 +115,7 @@ public class MainFrame {
 		});
 
 
-		removeone_button.setBounds(10, 60, 150, 30);
+		removeone_button.setBounds(170, 20, 150, 30);
 		removeone_button.addActionListener(new ActionListener() {
 			
 			@Override
@@ -130,7 +130,7 @@ public class MainFrame {
 			}
 		});
 		
-		removeall_button.setBounds(170, 60, 150, 30);
+		removeall_button.setBounds(330, 20, 150, 30);
 		removeall_button.addActionListener(new ActionListener() {
 
 			@Override
@@ -153,7 +153,7 @@ public class MainFrame {
 			}
 		});
 
-		removeedge_button.setBounds(330, 60, 150, 30);
+		removeedge_button.setBounds(170, 60, 150, 30);
 		removeedge_button.addActionListener(new ActionListener() {
 			
 			@Override
@@ -188,7 +188,7 @@ public class MainFrame {
 			}
 		});
 		
-		compute_button.setBounds(650, 20, 150, 30);
+		compute_button.setBounds(330, 60, 150, 30);
 		compute_button.addActionListener(new ActionListener() {
 			
 			@Override
@@ -225,14 +225,14 @@ public class MainFrame {
 			}
 		});
 		
-		canvas.setBounds(10, 100, 800, 585);
+		canvas.setBounds(10, 100, 630, 415);
 		canvas.setBackground(Color.white);
 
 		frame_pane.add(canvas);
 		frame_pane.add(input);
 		frame_pane.add(add_button);
 		frame_pane.add(compute_button);
-		frame_pane.add(config_button);
+		frame_pane.add(addedge_button);
 		frame_pane.add(removeall_button);
 		frame_pane.add(removeone_button);
 		frame_pane.add(list_button);
