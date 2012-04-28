@@ -231,6 +231,12 @@ public class MainFrame {
 				}
 				calculation(boxFrom.getSelectedItem().toString(), boxTo.getSelectedItem().toString(), checkCongestion.isSelected());
 				canvas.setFlagFalse();
+				
+				//reset distance
+				for (Router router : router_vector) {
+					router.setMinDistance(Double.POSITIVE_INFINITY);
+					router.setMinDistanceCongestion(Double.POSITIVE_INFINITY);
+				}
 			}
 		});
 		

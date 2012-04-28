@@ -25,6 +25,7 @@ public class Dijkstra_Core {
 
 	private void computePaths(Router source) {
 		source.setMinDistance(0.);
+//		source.setMinDistanceCongestion(0.);
 		PriorityQueue<Router> routerQueue = new PriorityQueue<Router>();
 		routerQueue.add(source);
 
