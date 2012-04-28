@@ -222,7 +222,11 @@ public class MainFrame {
 //						new JLabel("Distance"),
 				};
 				
-				JOptionPane.showConfirmDialog(null, inputs, "Remove Edge",JOptionPane.OK_CANCEL_OPTION);
+				int actionInt = JOptionPane.showConfirmDialog(null, inputs, "Remove Edge",JOptionPane.OK_CANCEL_OPTION);
+				if(actionInt != JOptionPane.OK_OPTION)
+				{
+					return;
+				}
 				if(boxFrom.getSelectedItem().toString() == boxTo.getSelectedItem().toString())
 				{
 					
